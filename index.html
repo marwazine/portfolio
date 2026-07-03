@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marwa ZINE EL ABIDINE - Portfolio Mesures Physiques</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#0071e3',   /* Bleu Apple */
+                        accent: '#34c759',    /* Vert Apple */
+                        soft: '#f5f5f7',      /* Gris clair Apple background */
+                        card: '#ffffff',      
+                    },
+                    boxShadow: {
+                        'apple': '0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02)',
+                        'apple-hover': '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)',
+                        'glow-blue': '0 0 15px rgba(0, 113, 227, 0.15)',
+                        'glow-green': '0 0 15px rgba(52, 199, 89, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f5f5f7; }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #0071e3, #34c759);
+            border-radius: 10px;
+            border: 2px solid #f5f5f7;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(to bottom, #005bb5, #28a745); }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .interactive-term {
+            @apply cursor-pointer relative font-medium transition-all duration-300;
+        }
+        
+        .modal {
+            transition: opacity 0.3s ease-in-out, visibility 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(12px);
+        }
+        .modal.active { opacity: 1; visibility: visible; }
+        .modal-content {
+            transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal.active .modal-content { transform: scale(1); }
+        
+        .accordion-content {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1), padding 0.5s ease;
+        }
+        .accordion-content.open { max-height: 2500px; padding-top: 1rem; padding-bottom: 1rem; }
+        .chevron { transition: transform 0.3s ease; }
+        .chevron.rotate { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-soft text-slate-800 font-sans antialiased selection:bg-primary selection:text-white">
+
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-3 group cursor-pointer">
+                    <div class="p-2 bg-blue-50 rounded-xl text-primary transition-colors duration-300 border border-blue-100">
+                        <i data-lucide="microscope" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-lg font-semibold tracking-tight text-slate-900">
+                        Marwa<span class="text-slate-400">.Zine</span>
+                    </span>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#accueil" class="text-slate-500 hover:text-primary transition px-3 py-2 text-sm font-medium">Accueil</a>
+                        <a href="#projets" class="text-slate-500 hover:text-primary transition px-3 py-2 text-sm font-medium">Projets</a>
+                        <a href="#langues" class="text-slate-500 hover:text-primary transition px-3 py-2 text-sm font-medium">Langues</a>
+                        <a href="#education" class="text-slate-500 hover:text-primary transition px-3 py-2 text-sm font-medium">Scolarité</a>
+                        <a href="#competences" class="text-slate-500 hover:text-primary transition px-3 py-2 text-sm font-medium">Compétences</a>
+                        <a href="#contact" class="bg-slate-900 hover:bg-black text-white px-5 py-2 rounded-full transition text-sm font-medium shadow-lg shadow-slate-300/50">Contact</a>
+                    </div>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-slate-900 focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="md:hidden hidden bg-white border-b border-slate-200" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#accueil" class="block hover:bg-slate-50 px-3 py-2 rounded-md text-base font-medium">Accueil</a>
+                <a href="#projets" class="block hover:bg-slate-50 px-3 py-2 rounded-md text-base font-medium">Projets</a>
+                <a href="#education" class="block hover:bg-slate-50 px-3 py-2 rounded-md text-base font-medium">Scolarité</a>
+                <a href="#contact" class="block text-primary hover:bg-slate-50 px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="accueil" class="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden bg-white">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=2070&auto=format&fit=crop"
+                 alt="Laboratoire background"
+                 class="w-full h-full object-cover opacity-60 select-none scale-105">
+            <div class="absolute inset-0 bg-white/40 backdrop-blur-[2px]"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-soft via-transparent to-transparent"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight tracking-tight">
+                Marwa ZINE EL ABIDINE
+            </h1>
+            <h2 class="text-2xl md:text-3xl text-slate-700 mb-8 font-light leading-relaxed">
+                Étudiante en <span class="text-primary font-semibold">Mesures Physiques</span><br>
+                <span class="text-accent font-semibold text-xl md:text-2xl mt-2 block">Parcours Mesures et Analyses Environnementales (MAE)</span>
+            </h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600 mb-10 leading-relaxed font-medium">
+                Actuellement en deuxième année de BUT Mesures Physiques, je suis spécialisée dans le parcours Mesures et Analyses Environnementales (MAE). Sensible aux défis écologiques actuels et particulièrement intéressée par l'optimisation énergétique ainsi que le contrôle de la qualité de l'eau et de l'air, je suis à la recherche d'une alternance de 12 mois pour ma troisième année, à compter de la rentrée 2026. Mon objectif est de mettre ma rigueur scientifique, mon esprit d'analyse et mes connaissances techniques au service de vos projets de transition ou de suivi environnemental.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#contact" class="bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-full font-medium transition flex items-center justify-center gap-2 shadow-lg shadow-blue-200 hover:scale-105 duration-300">
+                    <i data-lucide="mail" class="w-5 h-5"></i> Me contacter
+                </a>
+                <a href="CV_Marwa_ZINE_EL_ABIDINE.pdf" target="_blank" class="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 px-8 py-3 rounded-full font-medium transition flex items-center justify-center gap-2 shadow-sm hover:shadow-md duration-300">
+                    <i data-lucide="download" class="w-5 h-5"></i> Mon CV
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="projets" class="py-24 relative bg-soft border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-slate-900 mb-12 flex items-center gap-3">
+                <div class="p-2 bg-blue-50 rounded-xl text-primary"><i data-lucide="folder-kanban" class="w-6 h-6"></i></div>
+                Projets Réalisés
+            </h2>
+
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold text-slate-800 mb-8 pl-4 border-l-4 border-primary">Projets Universitaires</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    
+                    <!-- 1. Panneaux Solaires (En haut à gauche) -->
+                    <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-500 group flex flex-col hover:-translate-y-2">
+                        <div class="h-56 bg-slate-50 relative overflow-hidden">
+                            <img src="./images/projet_solaire.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1509391366360-12009a341e97?q=80&w=2070&auto=format&fit=crop'">
+                            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-yellow-600 shadow-sm">S4 2026</div>
+                        </div>
+                        <div class="p-8 flex-grow flex flex-col">
+                            <h3 class="text-xl font-bold text-slate-900 group-hover:text-yellow-500 transition mb-3">Installation Photovoltaïque</h3>
+                            <p class="text-slate-500 text-sm mb-6 flex-grow">Dimensionnement d'une installation solaire sur le lycée Kléber, calcul de rendement et évaluation économique via PVsyst.</p>
+                            <div class="flex gap-2">
+                                <button class="flex-1 py-3 bg-slate-50 text-slate-900 rounded-xl hover:bg-yellow-500 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm border border-slate-100" onclick="openModal('modal-solaire')">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Détails
+                                </button>
+                                <a href="Rapport_Solaire.pdf" target="_blank" class="flex-1 py-3 bg-yellow-50 text-yellow-600 rounded-xl hover:bg-yellow-500 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i> Rapport
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Journée de l'eau (En haut à droite) -->
+                    <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-500 group flex flex-col hover:-translate-y-2">
+                        <div class="h-56 bg-white relative overflow-hidden flex items-center justify-center p-4">
+                            <img src="./images/projet_eau.jpg" class="h-full w-auto object-contain group-hover:scale-105 transition duration-700 drop-shadow-md" onerror="this.src='https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop'">
+                            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-primary shadow-sm z-10">S3-S4 2025</div>
+                        </div>
+                        <div class="p-8 flex-grow flex flex-col">
+                            <h3 class="text-xl font-bold text-slate-900 group-hover:text-primary transition mb-3">Journée Mondiale de l'Eau</h3>
+                            <p class="text-slate-500 text-sm mb-6 flex-grow">Organisation d'un événement de sensibilisation à l'UPEC : conférences, logistique et budget participatif.</p>
+                            <div class="flex gap-2">
+                                <button class="flex-1 py-3 bg-slate-50 text-slate-900 rounded-xl hover:bg-blue-500 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm border border-slate-100" onclick="openModal('modal-eau')">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Détails
+                                </button>
+                                <a href="Rapport_Journee_Eau.pdf" target="_blank" class="flex-1 py-3 bg-blue-50 text-primary rounded-xl hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i> Rapport
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Capteur Cardiaque (PPG) (En bas à gauche) -->
+                    <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-500 group flex flex-col hover:-translate-y-2">
+                        <div class="h-56 bg-slate-50 relative overflow-hidden">
+                            <img src="./images/projet_ppg.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop'">
+                            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-red-500 shadow-sm">S3 2025</div>
+                        </div>
+                        <div class="p-8 flex-grow flex flex-col">
+                            <h3 class="text-xl font-bold text-slate-900 group-hover:text-red-500 transition mb-3">Capteur Cardiaque (PPG)</h3>
+                            <p class="text-slate-500 text-sm mb-6 flex-grow">Conception d'un photo-pléthysmographe analogique. Chaîne complète : capteur optique, filtrage actif, amplification et traitement.</p>
+                            <div class="flex gap-2">
+                                <button class="flex-1 py-3 bg-slate-50 text-slate-900 rounded-xl hover:bg-red-500 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm border border-slate-100" onclick="openModal('modal-ppg')">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Détails
+                                </button>
+                                <a href="Rapport_Capteur_PPG.pdf" target="_blank" class="flex-1 py-3 bg-red-50 text-red-600 rounded-xl hover:bg-red-500 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i> Rapport
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Micro-plastiques (En bas à droite) -->
+                    <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-500 group flex flex-col hover:-translate-y-2">
+                        <div class="h-56 bg-slate-50 relative overflow-hidden">
+                            <img src="./images/projet_micro.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=2070&auto=format&fit=crop'">
+                            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-teal-600 shadow-sm">S3 2024</div>
+                        </div>
+                        <div class="p-8 flex-grow flex flex-col">
+                            <h3 class="text-xl font-bold text-slate-900 group-hover:text-teal-600 transition mb-3">Analyse Micro-Plastiques</h3>
+                            <p class="text-slate-500 text-sm mb-6 flex-grow">Collecte en mer et caractérisation en laboratoire (Spectroscopie IR, Chromatographie) dans le cadre de la Régate des IUT.</p>
+                            <div class="flex gap-2">
+                                <button class="flex-1 py-3 bg-slate-50 text-slate-900 rounded-xl hover:bg-teal-500 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm border border-slate-100" onclick="openModal('modal-micro')">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Détails
+                                </button>
+                                <a href="Flyer_Micro_Plastiques.pdf" target="_blank" class="flex-1 py-3 bg-teal-50 text-teal-600 rounded-xl hover:bg-teal-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm">
+                                    <i data-lucide="file-image" class="w-4 h-4"></i> Flyer
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="py-24 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-slate-900 mb-16 text-center">
+                <i data-lucide="graduation-cap" class="inline-block w-8 h-8 mr-2 text-primary"></i> Parcours Scolaire
+            </h2>
+            
+            <div class="grid gap-8">
+                
+                <!-- BUT MP -->
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-apple transition-all duration-300 cursor-pointer group" onclick="toggleSection('edu-but', 'icon-but')">
+                    <div class="p-8 flex flex-col md:flex-row items-center gap-8 relative">
+                        <div class="w-24 h-24 bg-white rounded-2xl border border-slate-100 p-2 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
+                            <img src="./images/logo_iut.jpg" alt="Logo IUT Créteil" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'text-xs text-center\'>IUT</span>'">
+                        </div>
+                        <div class="flex-grow text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-slate-900 group-hover:text-primary transition-colors">BUT Mesures Physiques</h3>
+                            <p class="text-primary font-medium text-lg">Parcours Mesures et Analyses Environnementales (MAE)</p>
+                            <p class="text-slate-500 mt-2">IUT Créteil-Vitry (UPEC) | <span class="text-slate-400">2024 - En cours</span></p>
+                        </div>
+                        <div class="absolute right-8 top-1/2 -translate-y-1/2">
+                            <i data-lucide="chevron-down" id="icon-but" class="w-6 h-6 text-slate-400 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+                    <div id="edu-but" class="accordion-content bg-slate-50 border-t border-slate-100 px-8">
+                        <div class="py-10">
+                            <div class="prose prose-slate max-w-none text-slate-600 mb-12 leading-relaxed">
+                                <p class="mb-4"><strong class="text-slate-800">Diplôme professionnel de niveau 6 (Bac +3)</strong>, centré sur la science de la mesure. Une formation pluridisciplinaire alliant <span class="text-primary font-medium">Physique, Chimie, Électronique et Informatique</span>.</p>
+                                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                                        <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4 text-primary"></i> Enseignements</h4>
+                                        <p class="text-sm">Bases scientifiques solides (mécanique, optique, thermo) et spécialisation technique (capteurs, chaine de mesure, traitement du signal, techniques du vide).</p>
+                                    </div>
+                                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                                        <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><i data-lucide="briefcase" class="w-4 h-4 text-primary"></i> Professionnalisation</h4>
+                                        <p class="text-sm">Deux stages obligatoires (11 semaines en 2ème année, 15 semaines en 3ème année) pour développer l'autonomie et l'expertise technique.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-slate-900 mb-6 mt-16 text-center">Ressources de la Formation</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-16">
+                                <div onclick="event.stopPropagation(); openRessource('sciences')" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer group/card relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-full h-1 bg-green-500"></div>
+                                    <div class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center mb-3 group-hover/card:bg-green-500 group-hover/card:text-white transition-colors">
+                                        <i data-lucide="atom" class="w-5 h-5"></i>
+                                    </div>
+                                    <h5 class="font-bold text-slate-800 text-sm uppercase tracking-wide">Sciences Fondamentales</h5>
+                                    <p class="text-xs text-slate-400 mt-1">Physiques & Chimiques</p>
+                                </div>
+                                <div onclick="event.stopPropagation(); openRessource('maths')" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer group/card relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-full h-1 bg-yellow-400"></div>
+                                    <div class="w-10 h-10 rounded-full bg-yellow-50 text-yellow-600 flex items-center justify-center mb-3 group-hover/card:bg-yellow-400 group-hover/card:text-white transition-colors">
+                                        <i data-lucide="calculator" class="w-5 h-5"></i>
+                                    </div>
+                                    <h5 class="font-bold text-slate-800 text-sm uppercase tracking-wide">Maths & Numérique</h5>
+                                    <p class="text-xs text-slate-400 mt-1">Outils, Stats, Info</p>
+                                </div>
+                                <div onclick="event.stopPropagation(); openRessource('metro')" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer group/card relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-full h-1 bg-rose-400"></div>
+                                    <div class="w-10 h-10 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center mb-3 group-hover/card:bg-rose-400 group-hover/card:text-white transition-colors">
+                                        <i data-lucide="ruler" class="w-5 h-5"></i>
+                                    </div>
+                                    <h5 class="font-bold text-slate-800 text-sm uppercase tracking-wide">Métrologie & Instru.</h5>
+                                    <p class="text-xs text-slate-400 mt-1">Capteurs, Qualité, Chaîne</p>
+                                </div>
+                                <div onclick="event.stopPropagation(); openRessource('materiaux')" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer group/card relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-full h-1 bg-fuchsia-500"></div>
+                                    <div class="w-10 h-10 rounded-full bg-fuchsia-50 text-fuchsia-600 flex items-center justify-center mb-3 group-hover/card:bg-fuchsia-500 group-hover/card:text-white transition-colors">
+                                        <i data-lucide="layers" class="w-5 h-5"></i>
+                                    </div>
+                                    <h5 class="font-bold text-slate-800 text-sm uppercase tracking-wide">Matériaux & Analyse</h5>
+                                    <p class="text-xs text-slate-400 mt-1">Propriétés, Spectro, Vide</p>
+                                </div>
+                                <div onclick="event.stopPropagation(); openRessource('culture')" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer group/card relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-full h-1 bg-sky-400"></div>
+                                    <div class="w-10 h-10 rounded-full bg-sky-50 text-sky-500 flex items-center justify-center mb-3 group-hover/card:bg-sky-400 group-hover/card:text-white transition-colors">
+                                        <i data-lucide="message-square" class="w-5 h-5"></i>
+                                    </div>
+                                    <h5 class="font-bold text-slate-800 text-sm uppercase tracking-wide">Culture & Com.</h5>
+                                    <p class="text-xs text-slate-400 mt-1">Anglais, Droit, Échanges</p>
+                                </div>
+                            </div>
+
+                            <h4 class="text-xl font-bold text-slate-900 mb-8 text-center">Référentiel de Compétences</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                                <div onclick="event.stopPropagation(); openCompetence('mener')" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-glow-blue hover:-translate-y-1 transition-all cursor-pointer group/card relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
+                                    <div class="w-10 h-10 rounded-full bg-red-50 text-red-600 flex items-center justify-center mb-3 group-hover/card:bg-red-500 group-hover/card:text-white transition-colors">
+                                        <i data-lucide="activity" class="w-5 h-5"></i>
+                                    </div>
+                                    <h5 class="font-bold text-slate-800 text-lg">Mener</h5>
+                                    <p class="text-xs text-slate-500 mt-1">Une campagne de mesures</p>
+                                </div>
+                                <div onclick="event.stopPropagation(); openCompetence('deployer')" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-glow-blue hover:-translate-y-1 transition-all cursor-pointer group/card relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-full h-1 bg-orange-500"></div>
+                                    <div class="w-10 h-10 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center mb-3 group-hover/card:bg-orange-500 group-hover/card:text-white transition-colors">
+                                        <i data-lucide="settings-2" class="w-5 h-5"></i>
+                                    </div>
+                                    <h5 class="font-bold text-slate-800 text-lg">Déployer</h5>
+                                    <p class="text-xs text-slate-500 mt-1">Métrologie & Qualité</p>
+                                </div>
+                                <div onclick="event.stopPropagation(); openCompetence('oeuvre')" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-glow-blue hover:-translate-y-1 transition-all cursor-pointer group/card relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-full h-1 bg-yellow-500"></div>
+                                    <div class="w-10 h-10 rounded-full bg-yellow-50 text-yellow-600 flex items-center justify-center mb-3 group-hover/card:bg-yellow-500 group-hover/card:text-white transition-colors">
+                                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                                    </div>
+                                    <h5 class="font-bold text-slate-800 text-lg leading-tight">Mettre en œuvre</h5>
+                                    <p class="text-xs text-slate-500 mt-1">Chaîne de mesure</p>
+                                </div>
+                                <div onclick="event.stopPropagation(); openCompetence('caracteriser')" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-glow-blue hover:-translate-y-1 transition-all cursor-pointer group/card relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-full h-1 bg-emerald-500"></div>
+                                    <div class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 group-hover/card:bg-emerald-500 group-hover/card:text-white transition-colors">
+                                        <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                    </div>
+                                    <h5 class="font-bold text-slate-800 text-lg">Caractériser</h5>
+                                    <p class="text-xs text-slate-500 mt-1">Grandeurs & Matériaux</p>
+                                </div>
+                                <div onclick="event.stopPropagation(); openCompetence('definir')" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-glow-blue hover:-translate-y-1 transition-all cursor-pointer group/card relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
+                                    <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-3 group-hover/card:bg-blue-600 group-hover/card:text-white transition-colors">
+                                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                                    </div>
+                                    <h5 class="font-bold text-slate-800 text-lg">Définir</h5>
+                                    <p class="text-xs text-slate-500 mt-1">Cahier des charges</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Licence Physique -->
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-apple transition cursor-pointer group" onclick="toggleSection('edu-licence', 'icon-licence')">
+                    <div class="p-8 flex flex-col md:flex-row items-center gap-8 relative">
+                        <div class="w-24 h-24 bg-purple-50 rounded-2xl border border-purple-100 p-2 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
+                            <img src="./images/logo_upec.jpg" alt="Logo UPEC" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'text-xl text-purple-600 font-bold\'>L1</span>'">
+                        </div>
+                        <div class="flex-grow text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-slate-900 group-hover:text-purple-600 transition">Licence de Physique</h3>
+                            <p class="text-slate-500 mt-2">Université Paris Est Créteil (UPEC) | <span class="text-slate-400">2023 - 2024</span></p>
+                        </div>
+                        <div class="absolute right-8 top-1/2 -translate-y-1/2">
+                            <i data-lucide="chevron-down" id="icon-licence" class="w-6 h-6 text-slate-400 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+                    <div id="edu-licence" class="accordion-content bg-slate-50 border-t border-slate-100 px-8">
+                        <div class="py-8 grid md:grid-cols-2 gap-8 text-sm text-slate-600">
+                            <div>
+                                <h4 class="font-bold text-purple-600 mb-3 flex items-center gap-2 text-base"><i data-lucide="book-open" class="w-4 h-4"></i> Compétences Disciplinaires</h4>
+                                <ul class="space-y-3 list-disc list-inside marker:text-purple-300">
+                                    <li>Modéliser et résoudre des problèmes physiques complexes par approximations.</li>
+                                    <li>Mener une démarche expérimentale en autonomie (incertitudes, mesures).</li>
+                                    <li>Exploiter des logiciels d'acquisition et programmer (Python).</li>
+                                    <li>Manipuler les outils mathématiques appliqués à la physique.</li>
+                                </ul>
+                            </div>
+                            <div class="space-y-8">
+                                <div>
+                                    <h4 class="font-bold text-purple-600 mb-3 flex items-center gap-2 text-base"><i data-lucide="users" class="w-4 h-4"></i> Pré-professionnelles & Transversales</h4>
+                                    <ul class="space-y-3 list-disc list-inside marker:text-purple-300">
+                                        <li>Travailler en équipe et en autonomie au service d'un projet.</li>
+                                        <li>Synthétiser des données et développer une argumentation critique.</li>
+                                        <li>Maîtrise de l'anglais scientifique.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Baccalauréat -->
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-apple transition cursor-pointer group" onclick="toggleSection('edu-bac', 'icon-bac')">
+                    <div class="p-8 flex flex-col md:flex-row items-center gap-8 relative">
+                        <div class="w-24 h-24 bg-white rounded-2xl border border-slate-100 p-2 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
+                            <img src="./images/logo_lycee.jpg" alt="Logo Lycée" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'text-xs text-center font-bold text-slate-400\'>LYCÉE</span>'">
+                        </div>
+                        <div class="flex-grow text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-slate-900 group-hover:text-slate-600 transition">Baccalauréat Général</h3>
+                            <p class="text-slate-500 mt-2">Lycée Rosa Parks | <span class="text-slate-400">2020 - 2023</span></p>
+                        </div>
+                        <div class="absolute right-8 top-1/2 -translate-y-1/2">
+                            <i data-lucide="chevron-down" id="icon-bac" class="w-6 h-6 text-slate-400 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+                    <div id="edu-bac" class="accordion-content bg-slate-50 border-t border-slate-100 px-8">
+                        <div class="py-8 text-sm text-slate-600 max-w-2xl">
+                            <h4 class="font-bold text-slate-800 mb-3 text-base">Spécialités étudiées :</h4>
+                            <ul class="space-y-3 list-disc list-inside marker:text-slate-400">
+                                <li><strong>Physique-Chimie :</strong> Démarche expérimentale, analyse de systèmes physiques et chimiques complexes.</li>
+                                <li><strong>Mathématiques :</strong> Analyse, algèbre, géométrie, probabilités et résolution de problèmes.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="parcours" class="py-24 bg-white border-t border-slate-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-slate-900 mb-16 text-center">
+                <i data-lucide="briefcase" class="inline-block w-8 h-8 mr-2 text-primary"></i> Parcours Professionnel
+            </h2>
+            <div class="relative border-l-2 border-slate-200 ml-3 md:ml-6 space-y-16">
+                
+                <!-- Stage CNRS (Accordéon enrichi) -->
+                <div class="relative pl-8 md:pl-12 group cursor-pointer" onclick="toggleSection('exp-cnrs', 'icon-cnrs')">
+                    <div class="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-emerald-500 border-4 border-white box-content shadow-md group-hover:scale-125 transition"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center border border-slate-100 shadow-sm overflow-hidden p-1 shrink-0">
+                                <img src="./images/logo_cnrs.jpg" alt="CNRS" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'font-bold text-slate-700\'>C</span>'">
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-800 group-hover:text-emerald-600 transition">Technicien de laboratoire (Stage)</h4>
+                        </div>
+                        <span class="text-sm text-emerald-700 font-mono bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full whitespace-nowrap mt-2 sm:mt-0">Avril - Juin 2026</span>
+                    </div>
+                    <div class="text-slate-500 font-medium mb-4 pl-[5.5rem]">Laboratoire ICMPE (CNRS-UPEC) <i data-lucide="chevron-down" id="icon-cnrs" class="w-4 h-4 inline-block ml-2 transition-transform duration-300"></i></div>
+                    
+                    <div id="exp-cnrs" class="accordion-content bg-slate-50 p-6 md:p-8 rounded-2xl border border-slate-100 ml-[5.5rem]">
+                        <div class="space-y-5 text-slate-600 leading-relaxed text-sm">
+                            <h4 class="font-bold text-slate-800 text-base">Objectifs du projet</h4>
+                            <ul class="list-disc list-inside space-y-2 marker:text-emerald-500">
+                                <li>Développer et caractériser des membranes composites polymériques en incorporant de l'argile kaolinite (DD3) dans une matrice de PVDF (polyfluorure de vinylidène).</li>
+                                <li>Améliorer les performances de filtration pour l'élimination des métaux lourds (ions Mg²⁺ et Zn²⁺) présents dans les eaux usées industrielles.</li>
+                                <li>Optimiser un compromis entre la perméabilité hydraulique et la résistance mécanique des membranes.</li>
+                                <li>Évaluer l'influence du taux d'argile sur la structure, la morphologie et les propriétés fonctionnelles du matériau final.</li>
+                            </ul>
+
+                            <h4 class="font-bold text-slate-800 text-base mt-6">Rôle et Missions de la stagiaire</h4>
+                            <ul class="list-disc list-inside space-y-2 marker:text-emerald-500">
+                                <li><strong>Formulation et synthèse :</strong> Préparation de quatre formulations de membranes (M0, M025, M05, M1) avec des teneurs en argile croissantes, incluant les étapes de pesée, de dissolution (24h) et de dégazage.</li>
+                                <li><strong>Élaboration membranaire :</strong> Réalisation de l'étalement des films par inversion de phase (NIPS) avec une épaisseur contrôlée (700 µm) et mise en œuvre des étapes de consolidation dans des bains d'eau distillée.</li>
+                                <li><strong>Caractérisation expérimentale :</strong> Conduite d'une batterie d'analyses pour caractériser les propriétés rhéologiques, structurales, mécaniques et hydrauliques des membranes.</li>
+                                <li><strong>Analyse de performance :</strong> Évaluation de la capacité de rétention des ions métalliques et de la résistance chimique des membranes en milieu acide et basique.</li>
+                            </ul>
+
+                            <h4 class="font-bold text-slate-800 text-base mt-6">Méthodologies utilisées</h4>
+                            <ul class="list-disc list-inside space-y-2 marker:text-emerald-500 bg-white p-5 rounded-2xl border border-slate-100">
+                                <li><strong>Inversion de phase (NIPS) :</strong> Immersion du film (PVDF + argile dans le NMP) dans l'eau distillée pour induire la précipitation du polymère et la formation de la structure poreuse.</li>
+                                <li><strong>Analyses structurales et chimiques :</strong> FTIR (Vérification de la structure chimique et confirmation que l'incorporation de l'argile reste physique), DRX (Analyse de l'état cristallin), DSC (Comportement thermique et cristallinité).</li>
+                                <li><strong>Analyses morphologiques et de surface :</strong> Utilisation de la MEB (Microscopie Électronique à Balayage) pour observer la porosité et mesures d'angle de contact pour quantifier la mouillabilité.</li>
+                                <li><strong>Essais mécaniques :</strong> Tests de traction jusqu'à rupture pour mesurer le module de Young et la ductilité.</li>
+                                <li><strong>Performances hydrauliques :</strong> Mesures de perméabilité à l'eau sur un banc de filtration et quantification des ions métalliques par ICP-MS.</li>
+                            </ul>
+
+                            <h4 class="font-bold text-slate-800 text-base mt-6">Résultats obtenus</h4>
+                            <ul class="list-disc list-inside space-y-2 marker:text-teal-600 bg-emerald-50 p-5 rounded-2xl border border-emerald-100">
+                                <li><strong>Structure :</strong> L'ajout de kaolinite ne modifie pas la nature chimique du PVDF, mais réduit sa cristallinité.</li>
+                                <li><strong>Morphologie :</strong> L'incorporation d'argile favorise la densification de la membrane et réduit la taille des pores ; la teneur à 0,5% (M05) offre la morphologie la plus homogène.</li>
+                                <li><strong>Propriétés mécaniques :</strong> Une évolution non linéaire a été constatée ; le dosage M05 offre le meilleur équilibre entre flexibilité et résistance, tandis que des charges plus fortes (M1) augmentent la rigidité au détriment de la ductilité.</li>
+                                <li><strong>Performances de filtration :</strong> Une amélioration nette de la perméabilité a été observée avec l'ajout d'argile (atteignant 122 L.h⁻¹.m⁻².bar⁻¹ pour la membrane M1).</li>
+                                <li><strong>Rétention des métaux :</strong> La membrane M1 présente les meilleures performances avec un taux de rétention de 85% pour le zinc (Zn²⁺) et de 53% pour le magnésium (Mg²⁺).</li>
+                                <li><strong>Conclusion :</strong> La formulation M05 est identifiée comme optimale pour concilier performances hydrauliques et stabilité mécanique en vue d'une application industrielle de filtration.</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Bouton et Image -->
+                        <div class="mt-8 flex flex-col sm:flex-row gap-6 items-center">
+                            <div class="w-full sm:w-1/2">
+                                <img src="./images/projet_icmpe.jpg" class="w-full h-48 object-cover rounded-xl shadow-sm hover:scale-[1.02] transition-transform duration-300" onerror="this.style.display='none'">
+                            </div>
+                            <div class="w-full sm:w-1/2 flex justify-center">
+                                <a href="Rapport_Stage_CNRS.pdf" target="_blank" onclick="event.stopPropagation();" class="inline-flex py-3 px-6 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-500 hover:text-white transition-all duration-300 items-center justify-center gap-2 font-medium border border-emerald-100">
+                                    <i data-lucide="file-text" class="w-5 h-5"></i> Visualiser le rapport
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quartier sans violence -->
+                <div class="relative pl-8 md:pl-12 group cursor-pointer" onclick="toggleSection('exp-qsv', 'icon-qsv')">
+                    <div class="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-cyan-500 border-4 border-white box-content shadow-md group-hover:scale-125 transition"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center border border-slate-100 shadow-sm overflow-hidden p-1 shrink-0">
+                                <img src="./images/logo_qsv.jpg" alt="QSV" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'font-bold text-slate-700\'>Q</span>'">
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-800 group-hover:text-cyan-600 transition">Bénévolat Associatif</h4>
+                        </div>
+                        <span class="text-sm text-cyan-700 font-mono bg-cyan-50 border border-cyan-100 px-3 py-1 rounded-full whitespace-nowrap mt-2 sm:mt-0">Jan 2021 - Aujourd'hui</span>
+                    </div>
+                    <div class="text-slate-500 font-medium mb-4 pl-[5.5rem]">Quartier sans violence <i data-lucide="chevron-down" id="icon-qsv" class="w-4 h-4 inline-block ml-2 transition-transform duration-300"></i></div>
+                    <div id="exp-qsv" class="accordion-content bg-slate-50 p-6 rounded-2xl border border-slate-100 ml-[5.5rem]">
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2 mb-4">
+                            <li>Organisation d'événements de collecte de fonds.</li>
+                            <li>Conception et déploiement de programmes de sensibilisation.</li>
+                            <li>Coordination de bénévoles et gestion des plannings.</li>
+                        </ul>
+                        <div class="mt-4">
+                            <img src="./images/qsv_activite.jpg" class="w-full h-48 object-cover rounded-xl shadow-sm hover:scale-[1.02] transition-transform duration-300" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Répartition -->
+                <div class="relative pl-8 md:pl-12 group cursor-pointer" onclick="toggleSection('exp-pharma', 'icon-pharma')">
+                    <div class="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-orange-500 border-4 border-white box-content shadow-md group-hover:scale-125 transition"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center border border-slate-100 shadow-sm overflow-hidden p-1 shrink-0">
+                                <img src="./images/logo_pharma.jpg" alt="Pharma" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'font-bold text-slate-700\'>Ph</span>'">
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-800 group-hover:text-orange-600 transition">Préparatrice de commande</h4>
+                        </div>
+                        <span class="text-sm text-orange-700 font-mono bg-orange-50 border border-orange-100 px-3 py-1 rounded-full whitespace-nowrap mt-2 sm:mt-0">Juil - Août 2024</span>
+                    </div>
+                    <div class="text-slate-500 font-medium mb-4 pl-[5.5rem]">Active Répartition (Pharmaceutique) <i data-lucide="chevron-down" id="icon-pharma" class="w-4 h-4 inline-block ml-2 transition-transform duration-300"></i></div>
+                    <div id="exp-pharma" class="accordion-content bg-slate-50 p-6 rounded-2xl border border-slate-100 ml-[5.5rem]">
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2 mb-4">
+                            <li>Préparation de commandes (retrait & expédition).</li>
+                            <li>Tri et organisation des médicaments.</li>
+                            <li>Optimisation de l'espace de stockage et des flux logistiques.</li>
+                        </ul>
+                        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                             <img src="./images/pharma_equipe.jpg" class="w-full h-48 object-cover rounded-xl shadow-sm hover:scale-[1.02] transition-transform duration-300" onerror="this.style.display='none'">
+                             <img src="./images/pharma_lieu.jpg" class="w-full h-48 object-cover rounded-xl shadow-sm hover:scale-[1.02] transition-transform duration-300" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="competences" class="py-24 bg-soft border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-slate-900 mb-16 flex items-center gap-4">
+                <div class="p-3 bg-blue-100 text-primary rounded-2xl shadow-sm border border-blue-200"><i data-lucide="boxes" class="w-6 h-6"></i></div>
+                Compétences Techniques
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Instrumentation & Élec -->
+                <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                            <i data-lucide="cpu" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors">Instrumentation & Élec</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200" onclick="showDef('oscilloscope')">Oscilloscope</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200" onclick="showDef('gbf')">GBF / Multimètre</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200" onclick="showDef('capteurs')">Capteurs</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200" onclick="showDef('aop')">AOP</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200" onclick="showDef('calibration')">Calibration</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200" onclick="showDef('metrologie')">Métrologie</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200" onclick="showDef('qualite')">Contrôle Qualité</span>
+                    </div>
+                </div>
+
+                <!-- Informatique & Modélisation -->
+                <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                            <i data-lucide="code-2" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 group-hover:text-purple-600 transition-colors">Informatique & Modélisation</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200" onclick="showDef('python')">Python</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200" onclick="showDef('matlab')">Matlab</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200" onclick="showDef('pvsyst')">PVsyst</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200" onclick="showDef('office')">Pack Office</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200" onclick="showDef('analyse_donnees')">Analyse de Données</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200" onclick="showDef('plans')">Lecture Plans & Schémas</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200" onclick="showDef('doc_tech')">Doc Technique</span>
+                    </div>
+                </div>
+
+                <!-- Chimie, Labo & Sécurité -->
+                <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                            <i data-lucide="flask-conical" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 group-hover:text-emerald-600 transition-colors">Chimie, Labo & Sécurité</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200" onclick="showDef('spectro')">Spectroscopie IR</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200" onclick="showDef('chromato')">Chromatographie</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200" onclick="showDef('electrochimie')">Électrochimie</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200" onclick="showDef('securite')">Normes de Sécurité</span>
+                    </div>
+                </div>
+
+                <!-- Soft Skills -->
+                <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center shrink-0">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 group-hover:text-yellow-600 transition-colors">Savoir-être (Soft Skills)</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-yellow-50 hover:text-yellow-600 hover:border-yellow-200" onclick="showDef('pb')">Résolution de Problèmes</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-yellow-50 hover:text-yellow-600 hover:border-yellow-200" onclick="showDef('detail')">Souci du Détail</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-yellow-50 hover:text-yellow-600 hover:border-yellow-200" onclick="showDef('com')">Communication</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-yellow-50 hover:text-yellow-600 hover:border-yellow-200" onclick="showDef('equipe')">Travail en Équipe</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-yellow-50 hover:text-yellow-600 hover:border-yellow-200" onclick="showDef('adapt')">Adaptabilité</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-yellow-50 hover:text-yellow-600 hover:border-yellow-200" onclick="showDef('temps')">Gestion du Temps</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-yellow-50 hover:text-yellow-600 hover:border-yellow-200" onclick="showDef('critique')">Esprit Critique</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-yellow-50 hover:text-yellow-600 hover:border-yellow-200" onclick="showDef('initiative')">Initiative</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-yellow-50 hover:text-yellow-600 hover:border-yellow-200" onclick="showDef('patience')">Patience</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-yellow-50 hover:text-yellow-600 hover:border-yellow-200" onclick="showDef('curiosite')">Curiosité</span>
+                        <span class="px-4 py-2 bg-slate-50 rounded-full text-slate-600 font-medium text-sm border border-slate-200 interactive-term hover:bg-yellow-50 hover:text-yellow-600 hover:border-yellow-200" onclick="showDef('autonomie')">Autonomie</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-slate-800 mt-16 mb-8 pl-4 border-l-4 border-yellow-400">Certifications</h3>
+            <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-6 hover:shadow-md transition-all duration-500 group">
+                <div class="w-24 h-24 bg-white rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform border border-slate-100 shadow-sm overflow-hidden p-2">
+                    <img src="./images/logo_voltaire.jpg" alt="Certification Voltaire" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<i data-lucide=\'scroll-text\' class=\'w-10 h-10 text-yellow-500\'></i>'">
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Certification Voltaire</h3>
+                    <p class="text-slate-500 text-sm md:text-base leading-relaxed">Certification obtenue attestant d'une excellente maîtrise de l'orthographe et de la grammaire française. Un atout majeur pour la rédaction de rapports scientifiques et la communication professionnelle.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="langues" class="py-24 border-t border-slate-200 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-slate-900 mb-16 flex items-center justify-center gap-3">
+                <i data-lucide="languages" class="text-primary w-8 h-8"></i> Langues Maîtrisées
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <div class="group flex flex-col items-center gap-3 bg-white px-4 py-8 rounded-3xl border border-slate-100 transition-all duration-300 hover:shadow-md hover:border-blue-500">
+                    <img src="https://flagcdn.com/w80/fr.png" alt="France" class="w-14 h-auto rounded-lg shadow-sm">
+                    <div class="font-bold text-slate-800 text-lg mt-2 transition-colors">Français</div>
+                    <div class="text-xs text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full transition-colors">Langue maternelle</div>
+                </div>
+                <div class="group flex flex-col items-center gap-3 bg-white px-4 py-8 rounded-3xl border border-slate-100 transition-all duration-300 hover:shadow-md hover:border-emerald-500">
+                    <img src="https://flagcdn.com/w80/sa.png" alt="Arabe" class="w-14 h-auto rounded-lg shadow-sm">
+                    <div class="font-bold text-slate-800 text-lg mt-2 transition-colors">Arabe</div>
+                    <div class="text-xs text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full transition-colors">Langue maternelle</div>
+                </div>
+                <div class="group flex flex-col items-center gap-3 bg-white px-4 py-8 rounded-3xl border border-slate-100 transition-all duration-300 hover:shadow-md hover:border-blue-500">
+                    <img src="https://flagcdn.com/w80/gb.png" alt="Anglais" class="w-14 h-auto rounded-lg shadow-sm">
+                    <div class="font-bold text-slate-800 text-lg mt-2 transition-colors">Anglais</div>
+                    <div class="text-xs text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full transition-colors">B1 Professionnel</div>
+                </div>
+                <div class="group flex flex-col items-center gap-3 bg-white px-4 py-8 rounded-3xl border border-slate-100 transition-all duration-300 hover:shadow-md hover:border-yellow-500">
+                    <img src="https://flagcdn.com/w80/es.png" alt="Espagnol" class="w-14 h-auto rounded-lg shadow-sm">
+                    <div class="font-bold text-slate-800 text-lg mt-2 transition-colors">Espagnol</div>
+                    <div class="text-xs text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full transition-colors">B1 Intermédiaire</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT FOOTER -->
+    <section id="contact" class="py-24 bg-soft border-t border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+             <div class="mb-20">
+                <h2 class="text-3xl font-bold text-slate-900 mb-12 flex items-center justify-center gap-3">
+                    <i data-lucide="heart" class="text-primary w-8 h-8"></i> Centres d'Intérêt
+                </h2>
+                <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <div class="bg-white p-8 rounded-3xl border border-transparent shadow-sm flex flex-col items-center hover:scale-105 hover:shadow-md transition duration-300">
+                        <span class="text-5xl mb-4">🏔️</span><h4 class="font-bold text-slate-800 text-lg">Randonnée</h4>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl border border-transparent shadow-sm flex flex-col items-center hover:scale-105 hover:shadow-md transition duration-300">
+                        <span class="text-5xl mb-4">📚</span><h4 class="font-bold text-slate-800 text-lg">Lecture</h4>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl border border-transparent shadow-sm flex flex-col items-center hover:scale-105 hover:shadow-md transition duration-300">
+                        <span class="text-5xl mb-4">🎨</span><h4 class="font-bold text-slate-800 text-lg">Peinture</h4>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="text-4xl font-bold text-slate-900 mb-10">Me Contacter</h2>
+            <div class="grid md:grid-cols-2 gap-6 mb-12 max-w-2xl mx-auto">
+                <button onclick="openModal('modal-mail')" class="p-8 bg-white rounded-3xl hover:bg-blue-50 transition flex flex-col items-center gap-4 group border border-transparent hover:border-primary shadow-sm hover:shadow-md">
+                    <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 text-primary">
+                        <i data-lucide="mail" class="w-7 h-7"></i>
+                    </div>
+                    <span class="text-slate-600 text-lg font-medium group-hover:text-primary transition">Email</span>
+                </button>
+                <a href="https://www.linkedin.com/in/marwa-zine-el-abidine-839ba22aa" target="_blank" class="p-8 bg-white rounded-3xl hover:bg-blue-50 transition flex flex-col items-center gap-4 group border border-transparent hover:border-blue-600 shadow-sm hover:shadow-md">
+                    <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 text-blue-600">
+                        <!-- Vrai logo vectoriel LinkedIn -->
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </div>
+                    <span class="text-slate-600 text-lg font-medium group-hover:text-blue-600 transition">LinkedIn</span>
+                </a>
+            </div>
+            <p class="text-slate-400 text-sm mt-16">&copy; 2026 Marwa ZINE EL ABIDINE. Tous droits réservés.</p>
+        </div>
+    </section>
+
+    <!-- Modale EMAIL -->
+    <div id="modal-mail" class="modal">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-8 relative flex flex-col items-center text-center">
+            <button class="absolute top-4 right-4 text-slate-400 hover:text-red-500 close-modal"><i data-lucide="x"></i></button>
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-primary mb-4">
+                <i data-lucide="mail" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-2">Mon Email</h3>
+            <p class="text-slate-500 mb-6">N'hésitez pas à me contacter pour toute opportunité.</p>
+            <div class="bg-slate-100 rounded-xl p-3 w-full mb-4 flex items-center justify-center border border-slate-200">
+                <code class="text-slate-800 font-mono text-sm" id="email-text">marwa_zine91@outlook.fr</code>
+            </div>
+            <div class="flex gap-3 w-full">
+                <button onclick="navigator.clipboard.writeText('marwa_zine91@outlook.fr'); this.innerText='Copié !'; setTimeout(()=>this.innerText='Copier', 2000)" class="flex-1 py-3 bg-slate-200 text-slate-700 rounded-xl font-medium hover:bg-slate-300 transition">
+                    Copier
+                </button>
+                <a href="mailto:marwa_zine91@outlook.fr" class="flex-1 py-3 bg-primary text-white rounded-xl font-medium hover:bg-blue-600 transition flex items-center justify-center gap-2">
+                    Envoyer <i data-lucide="send" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale Definition -->
+    <div id="modal-def" class="modal">
+        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-lg p-8 md:p-10 relative">
+            <button class="absolute top-6 right-6 text-slate-400 hover:text-red-500 close-modal transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <div class="flex items-center gap-4 mb-6 border-b border-slate-100 pb-6">
+                <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center shrink-0">
+                    <i data-lucide="info" class="w-7 h-7"></i>
+                </div>
+                <h2 id="modal-def-title" class="text-2xl md:text-3xl font-bold text-slate-900">Définition</h2>
+            </div>
+            <div id="modal-def-text" class="text-slate-700 leading-relaxed text-base md:text-lg font-medium"></div>
+        </div>
+    </div>
+
+    <!-- Modale Compétences (Dynamique) -->
+    <div id="modal-competence" class="modal">
+        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-2xl p-8 relative flex flex-col">
+            <button class="absolute top-6 right-6 text-slate-400 hover:text-slate-800 close-modal transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <div class="flex items-center gap-4 mb-8">
+                <div id="comp-icon-container" class="w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg"></div>
+                <div>
+                    <h3 id="comp-title" class="text-3xl font-bold text-slate-900">Titre</h3>
+                    <p id="comp-subtitle" class="text-slate-500 text-lg font-medium">Sous-titre</p>
+                </div>
+            </div>
+            <div id="comp-levels" class="space-y-4"></div>
+        </div>
+    </div>
+    
+    <!-- Modale Ressources BUT MP (Dynamique) -->
+    <div id="modal-ressource" class="modal">
+        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-xl p-8 relative flex flex-col">
+            <button class="absolute top-6 right-6 text-slate-400 hover:text-slate-800 close-modal transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <div class="flex items-center gap-4 mb-8 border-b border-slate-100 pb-6">
+                <div id="res-icon-container" class="w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg"></div>
+                <div>
+                    <h3 id="res-title" class="text-2xl font-bold text-slate-900">Titre</h3>
+                    <p class="text-slate-500 text-sm font-medium uppercase tracking-wide mt-1">Modules d'Enseignement</p>
+                </div>
+            </div>
+            <div id="res-content" class="text-slate-700 leading-relaxed"></div>
+        </div>
+    </div>
+
+    <!-- Modale PROJET EAU -->
+    <div id="modal-eau" class="modal">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl p-6 relative max-h-[90vh] overflow-y-auto flex flex-col md:flex-row gap-8">
+            <button class="absolute top-4 right-4 text-slate-400 hover:text-red-500 close-modal z-10 bg-white/50 backdrop-blur-md rounded-full p-1"><i data-lucide="x"></i></button>
+            
+            <div class="w-full md:w-1/2 bg-slate-50 rounded-2xl flex items-center justify-center p-4 border border-slate-100 overflow-hidden">
+                <img src="./images/projet_eau.jpg" class="max-h-[60vh] w-auto object-contain rounded-xl shadow-sm" onerror="this.src='https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop'">
+            </div>
+            
+            <div class="w-full md:w-1/2 py-4 pr-4 flex flex-col">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Journée Mondiale de l'Eau</h2>
+                <div class="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold mb-6 self-start">Projet S3-S4 (UPEC)</div>
+                
+                <div class="space-y-4 text-slate-600 leading-relaxed text-sm flex-grow">
+                    <p><strong class="text-slate-800">Objectifs :</strong> L'objectif principal était de sensibiliser un grand nombre d'étudiants à l'importance de l'eau, à sa valeur, à sa fragilité et aux gestes permettant de la préserver au quotidien. Il était prévu initialement de toucher environ 300 personnes et de procéder à une distribution de gourdes réutilisables.</p>
+                    <p><strong class="text-slate-800">Mon rôle :</strong> J'ai occupé un rôle d'organisation et de coordination central pour cet événement majeur du campus début 2026. Mes missions incluaient la planification soutenue des cycles de conférences, la structuration de la logistique globale et l'aménagement des différents stands interactifs.</p>
+                    
+                    <h4 class="font-bold text-slate-800 mt-4">Méthodologies utilisées :</h4>
+                    <ul class="list-disc list-inside space-y-1 marker:text-blue-500 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <li>Répartition des rôles ciblée et outils collaboratifs (WhatsApp, Canva).</li>
+                        <li>Montage financier rigoureux (9 001,09 € TTC), subventionné par la CVEC et AZA BATTERY.</li>
+                        <li>Stratégie d'achat conforme aux institutions publiques.</li>
+                        <li>Gestion réactive des imprévus météorologiques.</li>
+                        <li>Création d'activités pratiques (évaluation physico-chimique de l'eau).</li>
+                    </ul>
+
+                    <h4 class="font-bold text-slate-800 mt-4">Résultats obtenus :</h4>
+                    <ul class="list-disc list-inside space-y-1 marker:text-green-500">
+                        <li>Forte affluence (600 participants, +20% des objectifs).</li>
+                        <li>Distribution de 525 gourdes réutilisables.</li>
+                        <li>Gestion budgétaire parfaite (9 000 € dépensés).</li>
+                        <li>Fort succès interactif et récolte de dons pour des puits en Afrique.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modale PROJET SOLAIRE -->
+    <div id="modal-solaire" class="modal">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl p-8 relative max-h-[90vh] overflow-y-auto flex flex-col">
+            <button class="absolute top-6 right-6 text-slate-400 hover:text-red-500 close-modal z-10"><i data-lucide="x"></i></button>
+            <h2 class="text-3xl font-bold text-slate-900 mb-2">Installation Photovoltaïque</h2>
+            <div class="inline-block px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-bold mb-6 self-start">Énergie & Environnement</div>
+            
+            <div class="space-y-5 text-slate-600 leading-relaxed text-sm">
+                <p><strong class="text-slate-800 text-base">Objectifs du Projet :</strong></p>
+                <ul class="list-disc list-inside space-y-2 marker:text-yellow-500 bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                    <li><strong>Étude de faisabilité :</strong> Dimensionner une installation de panneaux solaires en fonction de la surface disponible sur le toit du bâtiment principal du lycée Kléber à Strasbourg.</li>
+                    <li><strong>Conception technique :</strong> Déterminer le nombre optimal de panneaux photovoltaïques, le type d'onduleur nécessaire pour la conversion du courant (continu en alternatif), et le système de stockage.</li>
+                    <li><strong>Bilan financier :</strong> Évaluer les coûts d'investissement, d'exploitation et la rentabilité économique globale du système sur le long terme.</li>
+                </ul>
+
+                <h4 class="font-bold text-slate-800 text-base mt-6">Le Rôle (Conception et Modélisation) :</h4>
+                <p>En tant que chef de projet et conceptrice, le rôle a consisté à mener l'étude de faisabilité de bout en bout de manière autonome. Les responsabilités comprenaient :</p>
+                <ul class="list-disc list-inside space-y-2 marker:text-yellow-500">
+                    <li>L'évaluation géospatiale du site pour identifier les contraintes physiques du toit.</li>
+                    <li>La réalisation des calculs trigonométriques pour définir l'inclinaison des panneaux et l'espacement requis afin d'éviter les pertes de rendement liées aux zones d'ombre.</li>
+                    <li>La configuration technique pointue sur le logiciel de simulation (PVsyst) pour modéliser le comportement réel du système face aux conditions climatiques et matérielles.</li>
+                    <li>L'analyse des données de sortie pour statuer sur la rentabilité de l'investissement.</li>
+                </ul>
+                
+                <h4 class="font-bold text-slate-800 text-base mt-6">Méthodologies Utilisées :</h4>
+                <ul class="list-disc list-inside space-y-2 marker:text-yellow-500 bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                    <li><strong>Analyse spatiale :</strong> Le logiciel Google Earth a été utilisé pour mesurer avec précision le périmètre (150,26 m) et l'aire (765,71 m²) du toit plat du bâtiment. Une schématisation via PowerPoint a ensuite permis de placer théoriquement les modules tout en respectant une échelle stricte.</li>
+                    <li><strong>Estimation par Intelligence Artificielle :</strong> Face à l'absence de données réelles sur les équipements du lycée, l'intelligence artificielle a été sollicitée pour estimer la consommation électrique annuelle (environ 300 000 kWh/an) et générer un profil de répartition mensuelle tenant compte des vacances scolaires.</li>
+                    <li><strong>Calculs analytiques :</strong> La méthode de calcul a pris en compte une orientation plein sud (azimut 0°) et une inclinaison optimale de 40°. L'écartement minimal entre les panneaux a été calculé mathématiquement (distance réelle de 3,28 m) pour maximiser l'ensoleillement.</li>
+                    <li><strong>Simulation avancée (PVsyst) :</strong> Le paramétrage du logiciel a intégré une configuration matérielle spécifique (54 modules AKCOME de 700 Wc et 1 onduleur Ingecon Sun 33TL). La méthodologie a exigé le réglage minutieux de nombreuses pertes potentielles : ohmiques (1,5 %), encrassement (3 %), efficacité des modules, indisponibilité, et la dégradation due au vieillissement sur 10 ans.</li>
+                </ul>
+
+                <h4 class="font-bold text-slate-800 text-base mt-6">Résultats Obtenus :</h4>
+                <ul class="list-disc list-inside space-y-2 marker:text-green-500 bg-emerald-50 p-5 rounded-2xl border border-emerald-100">
+                    <li><strong>Performances Techniques :</strong> L'installation finale comprend 54 panneaux occupant une surface de 168 m², délivrant une puissance nominale totale de 37,8 kWc. Le système génère une production de 37,5 MWh d'énergie par an. L'installation fonctionne sur le principe de l'autoconsommation, tout en revendant la surproduction (3,1 MWh/an) au réseau national au tarif de 0,06 EUR/kWh.</li>
+                    <li><strong>Bilan Économique et Financier :</strong> Le coût total d'installation (CAPEX) est maîtrisé et s'élève à 28 712,60 EUR, financé intégralement par des capitaux propres.</li>
+                    <li>Le projet est jugé financièrement très performant : le coût nivelé de l'énergie (LCOE) s'établit à un seuil très bas de 0,0823 EUR/kWh, ce qui est très compétitif par rapport aux tarifs standards du réseau.</li>
+                    <li>Le temps de retour sur investissement est estimé à seulement 4 ans.</li>
+                    <li>Le Taux de Rentabilité Interne (TRI) s'élève à un niveau excellent de 26,92 %.</li>
+                    <li>Sur la durée de vie du projet (20 ans), l'installation devrait générer des revenus cumulés de 221 648,57 EUR.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale PROJET PPG -->
+    <div id="modal-ppg" class="modal">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl p-8 relative max-h-[90vh] overflow-y-auto flex flex-col">
+             <button class="absolute top-6 right-6 text-slate-400 hover:text-red-500 close-modal z-10"><i data-lucide="x"></i></button>
+             <h2 class="text-3xl font-bold text-slate-900 mb-2">Réalisation d'un Photo-pléthysmographe (Capteur Cardiaque Optique)</h2>
+             <div class="inline-block px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold mb-6 self-start">Instrumentation S3</div>
+             
+             <div class="space-y-5 text-slate-600 leading-relaxed text-sm">
+                 <p><strong class="text-slate-800 text-base">Objectifs du projet :</strong></p>
+                 <ul class="list-disc list-inside space-y-2 marker:text-red-500 bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                     <li>Concevoir un capteur optique capable de mesurer les variations de volume sanguin tissulaire liées aux battements cardiaques.</li>
+                     <li>Transformer des fluctuations lumineuses infrarouges en un signal électrique mesurable et exploitable.</li>
+                     <li>Maîtriser de bout en bout une chaîne complète de mesure analogique, incluant la polarisation, l'amplification et le filtrage des signaux.</li>
+                 </ul>
+                 
+                 <h4 class="font-bold text-slate-800 text-base mt-6">Rôle et Méthodologies utilisées :</h4>
+                 <ul class="list-disc list-inside space-y-2 marker:text-red-500">
+                     <li><strong>Conception du circuit d'alimentation :</strong> Mise en œuvre d'un générateur de courant constant pour alimenter une LED infrarouge à l'aide d'un amplificateur opérationnel (TL081) et d'une diode Zener.</li>
+                     <li><strong>Acquisition du signal :</strong> Polarisation et alignement précis d'un phototransistor pour convertir le flux lumineux traversant le doigt en une tension variable proportionnelle à l'opacité sanguine.</li>
+                     <li><strong>Filtrage passe-haut :</strong> Dimensionnement et intégration d'une cellule R-C pour bloquer les basses fréquences et supprimer la composante continue (offset) du signal. La fréquence de coupure a été mesurée expérimentalement à 0,34 Hz.</li>
+                     <li><strong>Amplification et filtrage passe-bas :</strong> Calcul et application du théorème de Millman pour concevoir un étage combinant l'amplification du signal utile, qui est très faible, et la réduction des bruits haute fréquence, spécifiquement le bruit secteur de 50 Hz. La fréquence de coupure théorique de ce filtre a été calculée à 22,4 Hz.</li>
+                     <li><strong>Caractérisation et optimisation :</strong> Utilisation d'un oscilloscope et d'un générateur basses fréquences (GBF) pour caractériser les composants, mesurer les gains et relever les fréquences de coupure. Optimisation matérielle sur la plaquette pour minimiser de manière significative les perturbations et le bruit.</li>
+                 </ul>
+
+                 <h4 class="font-bold text-slate-800 text-base mt-6">Résultats obtenus :</h4>
+                 <ul class="list-disc list-inside space-y-2 marker:text-green-500 bg-emerald-50 p-5 rounded-2xl border border-emerald-100">
+                     <li>Assemblage matériel fonctionnel de la chaîne complète de conditionnement du signal.</li>
+                     <li>Isolement réussi d'un signal périodique représentatif de l'activité cardiaque, après un travail d'atténuation des bruits parasites.</li>
+                     <li>Extraction d'une fréquence cardiaque de 67,2 bpm, confirmant la cohérence physiologique du montage pour un individu au repos.</li>
+                     <li>Identification d'axes d'amélioration clairs, notamment l'intégration de filtres passe-bande plus stricts pour accroître la précision et faciliter l'interprétation des données.</li>
+                 </ul>
+             </div>
+        </div>
+    </div>
+    
+    <!-- Modale PROJET MICRO -->
+    <div id="modal-micro" class="modal">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl p-8 relative max-h-[90vh] overflow-y-auto flex flex-col">
+             <button class="absolute top-6 right-6 text-slate-400 hover:text-red-500 close-modal z-10"><i data-lucide="x"></i></button>
+             <h2 class="text-3xl font-bold text-slate-900 mb-2">Analyse Micro-Plastiques</h2>
+             <div class="inline-block px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold mb-6 self-start">Chimie & Environnement S3</div>
+             
+             <div class="space-y-5 text-slate-600 leading-relaxed text-sm">
+                 <p><strong class="text-slate-800 text-base">Objectifs du projet :</strong></p>
+                 <ul class="list-disc list-inside space-y-2 marker:text-green-500 bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                     <li>Prélever des échantillons de microplastiques lors de la Régate des IUT à Saint-Malo afin d'étudier la contamination des eaux côtières.</li>
+                     <li>Caractériser les particules prélevées en analysant leurs propriétés physiques et chimiques, telles que leur taille, leur forme, leur composition et leur origine potentielle.</li>
+                     <li>Mieux comprendre l'étendue de la pollution plastique marine et contribuer à la recherche sur la gestion de cette pollution.</li>
+                     <li>Sensibiliser le public et les participants de la régate aux impacts environnementaux néfastes des microplastiques.</li>
+                 </ul>
+                 
+                 <h4 class="font-bold text-slate-800 text-base mt-6">Rôle et Responsabilités de l'équipe :</h4>
+                 <ul class="list-disc list-inside space-y-2 marker:text-green-500">
+                     <li><strong>Conception matérielle :</strong> Adaptation d'un filet à plancton en concevant un système de flottaison (à l'aide de pull-buoys découpés) pour maintenir le filet à la surface de l'eau malgré les vagues.</li>
+                     <li><strong>Échantillonnage sur le terrain :</strong> Réalisation de prélèvements dynamiques depuis un bateau sur le lac de Créteil et sur trois sites marins à Saint-Malo (Fort La Latte, archipel des Ébihens, baie du port).</li>
+                     <li><strong>Analyses en laboratoire :</strong> Traitement des échantillons, filtration de l'eau, observation minutieuse au microscope et caractérisation chimique des polymères.</li>
+                     <li><strong>Communication scientifique :</strong> Création d'un flyer scientifique et animation d'un stand thématique lors de l'événement pour expliquer la démarche expérimentale.</li>
+                 </ul>
+
+                 <h4 class="font-bold text-slate-800 text-base mt-6">Méthodologies utilisées :</h4>
+                 <ul class="list-disc list-inside space-y-2 marker:text-green-500 bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                     <li><strong>Prélèvement :</strong> Utilisation d'un filet à plancton doté de mailles de 180 µm. Le filet a été traîné en surface (entre 0,1 et 0,35 m de profondeur) pendant 10 à 15 minutes, à une vitesse contrôlée de 1 à 3 nœuds pour ne pas abîmer le matériel.</li>
+                     <li><strong>Stockage et traitement :</strong> Rinçage du filet à l'eau de mer, récupération des particules au tamis, puis stockage dans des flacons en verre brun contenant de l'éthanol à 70 %, conservés au frais (entre 2°C et 8°C).</li>
+                     <li><strong>Filtration :</strong> Séparation des particules de l'eau par filtration sous vide à l'aide d'un entonnoir Büchner, ainsi que par l'utilisation de filtres à seringue de haute précision.</li>
+                     <li><strong>Mesures physiques :</strong> Évaluation de la taille et de la forme des particules via un microscope numérique relié au logiciel IC Measure, préalablement calibré avec une lame micrométrique.</li>
+                     <li><strong>Caractérisation chimique :</strong> Identification de la nature des plastiques par spectroscopie infrarouge IR-ATR (Atténuation Totale Réfléchie) en pressant les échantillons contre un cristal de diamant.</li>
+                 </ul>
+
+                 <h4 class="font-bold text-slate-800 text-base mt-6">Résultats obtenus :</h4>
+                 <ul class="list-disc list-inside space-y-2 marker:text-teal-600 bg-teal-50 p-5 rounded-2xl border border-teal-100">
+                     <li><strong>Concentrations massiques :</strong> Le calcul des concentrations a révélé 6,744 g/L à Fort La Latte, 7,912 g/L aux Ébihens et 3,68 g/L dans la baie de Saint-Malo. La concentration plus faible dans le port a été hypothétiquement attribuée aux courants marins. (À noter : ces masses incluaient également de la matière organique).</li>
+                     <li><strong>Observations visuelles :</strong> Les examens microscopiques ont permis d'identifier des fragments et des filaments de la taille d'une centaine de micromètres, ainsi que des micro-organismes naturels comme des copépodes et des algues.</li>
+                     <li><strong>Identification des plastiques :</strong> Les spectres obtenus par l'IR-ATR ont mis en évidence des signatures chimiques correspondant très probablement à du PET (Polyéthylène Téréphtalate), du PP (Polypropylène), ainsi que du PE (Polyéthylène) ou du PVC (Polychlorure de vinyle).</li>
+                     <li><strong>Bilan global :</strong> L'expérience a confirmé de manière concrète la présence de pollution par les microplastiques dans les eaux marines étudiées et a permis à l'équipe de développer son autonomie sur un protocole scientifique complet.</li>
+                 </ul>
+             </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        function openModal(id) {
+            const m = document.getElementById(id);
+            if(m) m.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function showDef(term) {
+            const defs = {
+                'oscilloscope': { title: 'Oscilloscope', text: "Instrument incontournable qui affiche la tension électrique en fonction du temps. Permet d'analyser la forme, la fréquence et l'amplitude d'un signal." },
+                'gbf': { title: 'GBF (Générateur Basse Fréquence)', text: "Source de tension capable de produire des signaux périodiques (sinusoïdaux, carrés, triangles) pour stimuler et tester des circuits électroniques." },
+                'capteurs': { title: 'Capteurs', text: "Dispositifs convertissant une grandeur physique (température, lumière, force...) en un signal électrique mesurable par nos instruments." },
+                'aop': { title: 'AOP (Ampli Opérationnel)', text: "Composant actif polyvalent utilisé pour amplifier un signal, le filtrer, ou réaliser des opérations mathématiques (somme, intégration) en analogique." },
+                'spectro': { title: 'Spectroscopie IR', text: "Technique d'analyse chimique basée sur l'absorption de la lumière infrarouge par les molécules. Permet d'identifier les liaisons chimiques et la nature d'un échantillon." },
+                'chromato': { title: 'Chromatographie', text: "Méthode de séparation des constituants d'un mélange complexe (liquide ou gaz) en les faisant migrer à différentes vitesses sur un support." },
+                'solutions': { title: 'Chimie des solutions', text: "Étude des réactions chimiques en milieu liquide : équilibres acido-basiques (pH), réactions d'oxydoréduction et précipitation." },
+                'instrumentation': { title: 'Instrumentation de Mesure', text: "Connaissance approfondie des instruments de mesure tels que les oscilloscopes, les multimètres et divers capteurs." },
+                'calibration': { title: 'Techniques de Calibration', text: "Expérience pratique dans l'étalonnage et l'ajustement minutieux des équipements de mesure en laboratoire." },
+                'analyse_donnees': { title: 'Analyse de Données', text: "Compétences en interprétation et analyse rigoureuse de données quantitatives et expérimentales." },
+                'logiciels': { title: 'Logiciels de Modélisation', text: "Maîtrise des logiciels d'ingénierie et de conception assistée par ordinateur." },
+                'plans': { title: 'Lecture de Plans et Schémas', text: "Capacité à comprendre, analyser et interpréter des plans techniques ainsi que des schémas de circuits électroniques." },
+                'metrologie': { title: 'Métrologie', text: "Connaissance approfondie des normes fondamentales et des méthodes de calcul d'incertitude en métrologie." },
+                'reparation': { title: 'Réparation et Maintenance', text: "Savoir-faire technique en diagnostic de pannes et réparation de base d'équipements de mesure." },
+                'securite': { title: 'Normes de Sécurité', text: "Connaissance stricte des protocoles et des réglementations de sécurité lors des manipulations en laboratoire." },
+                'doc_tech': { title: 'Documentation Technique', text: "Compétences professionnelles en rédaction de rapports techniques, de fiches de synthèse et de documentation méthodologique." },
+                'qualite': { title: 'Contrôle de Qualité', text: "Aptitudes à concevoir et mettre en œuvre des procédures de contrôle qualité pour garantir la précision absolue et la fiabilité des mesures." },
+                'pb': { title: 'Résolution de Problèmes', text: "Forte capacité à identifier l'origine des anomalies et à résoudre efficacement des problèmes complexes sur le terrain." },
+                'detail': { title: 'Souci du Détail', text: "Attention extrêmement minutieuse aux détails, indispensable pour garantir des mesures et des résultats précis." },
+                'com': { title: 'Communication', text: "Aptitude avérée à vulgariser et expliquer des concepts techniques et scientifiques de manière claire, à l'oral comme à l'écrit." },
+                'equipe': { title: 'Travail en Équipe', text: "Capacité à collaborer de façon constructive et synergique avec d'autres professionnels dans un environnement multidisciplinaire." },
+                'adapt': { title: 'Adaptabilité', text: "Flexibilité et agilité d'apprentissage pour s'adapter très rapidement aux nouvelles technologies, protocoles et méthodes de travail." },
+                'temps': { title: 'Gestion du Temps', text: "Excellentes compétences en organisation permettant de gérer et prioriser plusieurs tâches et projets simultanément dans le respect des délais." },
+                'critique': { title: 'Esprit Critique', text: "Aptitude à analyser et évaluer toute information de manière objective et critique pour prendre des décisions rationnelles et informées." },
+                'initiative': { title: 'Initiative', text: "Forte proactivité dans la proposition d'améliorations des processus, l'autonomie sur les projets et la recherche d'innovation." },
+                'patience': { title: 'Patience', text: "Capacité éprouvée à rester calme, concentrée et méthodique lors des expériences de longue durée ou dans des situations de pression." },
+                'curiosite': { title: 'Curiosité', text: "Désir profond d'apprendre continuellement et de réaliser une veille active sur les dernières avancées technologiques et environnementales." },
+                'autonomie': { title: 'Autonomie', text: "Forte capacité à travailler de manière indépendante, à prendre des initiatives et à mener à bien des projets avec un minimum de supervision." },
+                'electrochimie': { title: 'Électrochimie', text: "Étude des phénomènes chimiques couplés aux échanges d'électrons. Maîtrise des techniques d'analyse comme la conductimétrie, la pH-métrie et les titrages potentiométriques." },
+                'python': { title: 'Python', text: "Langage de programmation polyvalent. Très utilisé en laboratoire pour le traitement massif de données, l'automatisation des calculs et la modélisation scientifique." },
+                'matlab': { title: 'MATLAB', text: "Plateforme de programmation et de calcul numérique, idéale pour l'analyse de données complexes, le traitement du signal et la simulation de systèmes physiques." },
+                'pvsyst': { title: 'PVsyst', text: "Logiciel d'ingénierie standard de l'industrie pour l'architecture, la simulation détaillée et l'analyse de rentabilité des systèmes d'énergie solaire photovoltaïque." },
+                'office': { title: 'Pack Office', text: "Excellente maîtrise d'Excel pour le traitement de données (macros, graphiques complexes), de Word pour la rédaction de rapports techniques, et de PowerPoint pour les présentations orales." }
+            };
+            const data = defs[term];
+            if(data) {
+                document.getElementById('modal-def-title').innerText = data.title;
+                document.getElementById('modal-def-text').innerText = data.text;
+                openModal('modal-def');
+            }
+        }
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const modal = this.closest('.modal');
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+        
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function toggleSection(id, iconId) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(iconId);
+            content.classList.toggle('open');
+            icon.classList.toggle('rotate-180');
+        }
+
+        const competencesData = {
+            'mener': {
+                title: 'Mener',
+                subtitle: 'Une campagne de mesures',
+                colorClass: 'bg-red-500',
+                lightClass: 'bg-red-50',
+                borderClass: 'border-red-100',
+                textClass: 'text-red-700',
+                icon: 'activity',
+                levels: [
+                    { lvl: 1, text: "Mener une campagne de mesures pour un nombre restreint de grandeurs." },
+                    { lvl: 2, text: "Mener une campagne de mesures multiples nécessitant un traitement complexe des données." },
+                    { lvl: 3, text: "Mener une campagne de mesures dans un contexte professionnel spécifique." }
+                ]
+            },
+            'deployer': {
+                title: 'Déployer',
+                subtitle: 'Métrologie et Démarche Qualité',
+                colorClass: 'bg-orange-500',
+                lightClass: 'bg-orange-50',
+                borderClass: 'border-orange-100',
+                textClass: 'text-orange-700',
+                icon: 'settings-2',
+                levels: [
+                    { lvl: 1, text: "Déployer la métrologie et la démarche qualité pour un résultat de mesure." },
+                    { lvl: 2, text: "Déployer la métrologie et la démarche qualité pour un instrument de mesure." },
+                    { lvl: 3, text: "Déployer la métrologie et la démarche qualité pour un parc d'instruments." }
+                ]
+            },
+            'oeuvre': {
+                title: 'Mettre en œuvre',
+                subtitle: 'Chaîne de mesure & Instrumentation',
+                colorClass: 'bg-yellow-500',
+                lightClass: 'bg-yellow-50',
+                borderClass: 'border-yellow-100',
+                textClass: 'text-yellow-700',
+                icon: 'cpu',
+                levels: [
+                    { lvl: 1, text: "Mettre en œuvre une chaîne de mesure simple, piloter un instrument de façon élémentaire." },
+                    { lvl: 2, text: "Mettre en œuvre une chaîne d'instrumentation simple pouvant associer mesure, régulation et pilotage." }
+                ]
+            },
+            'caracteriser': {
+                title: 'Caractériser',
+                subtitle: 'Grandeurs Physiques, Chimiques & Matériaux',
+                colorClass: 'bg-emerald-500',
+                lightClass: 'bg-emerald-50',
+                borderClass: 'border-emerald-100',
+                textClass: 'text-emerald-700',
+                icon: 'flask-conical',
+                levels: [
+                    { lvl: 1, text: "Caractériser des grandeurs physiques, chimiques et les propriétés d'un matériau en utilisant des méthodes simples." },
+                    { lvl: 2, text: "Caractériser des grandeurs physico-chimiques et les propriétés d'un matériau en utilisant des méthodes complexes." }
+                ]
+            },
+            'definir': {
+                title: 'Définir',
+                subtitle: 'Cahier des charges & Démarche Environnementale',
+                colorClass: 'bg-blue-600',
+                lightClass: 'bg-blue-50',
+                borderClass: 'border-blue-100',
+                textClass: 'text-blue-700',
+                icon: 'file-text',
+                levels: [
+                    { lvl: 1, text: "Définir un cahier des charges d'une mesure simple dans une démarche environnementale." },
+                    { lvl: 2, text: "Définir un cahier des charges d'un ensemble de mesures dans une démarche environnementale." },
+                    { lvl: 3, text: "Définir un cahier des charges de mesures répondant à de fortes contraintes environnementales ou énergétiques." }
+                ]
+            }
+        };
+
+        const ressourcesData = {
+            'sciences': {
+                title: 'Sciences Fondamentales',
+                colorClass: 'bg-green-500',
+                icon: 'atom',
+                content: `
+                    <div class="mb-4">
+                        <h5 class="font-bold text-green-700 mb-2 border-b border-green-100 pb-1">Physiques</h5>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li>Mécanique</li><li>Système optique</li><li>Système électrique</li>
+                            <li>Électromagnétisme</li><li>Mécanique des fluides</li>
+                            <li>Thermodynamique</li><li>Acoustique et vibration</li><li>Optique ondulatoire</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-green-700 mb-2 border-b border-green-100 pb-1">Chimiques</h5>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li>Structure atomique et moléculaire</li>
+                            <li>Oxydoréduction et cinétique chimique</li>
+                            <li>Équilibre chimique et sécurité en laboratoire</li>
+                        </ul>
+                    </div>`
+            },
+            'maths': {
+                title: 'Mathématiques & Outils Numériques',
+                colorClass: 'bg-yellow-400',
+                icon: 'calculator',
+                content: `
+                    <ul class="list-disc list-inside text-slate-600 space-y-2 mt-4">
+                        <li>Outils mathématiques</li>
+                        <li>Statistiques</li>
+                        <li>Algorithmique et informatique</li>
+                        <li>Traitement du signal</li>
+                    </ul>`
+            },
+            'metro': {
+                title: 'Métrologie & Instrumentation',
+                colorClass: 'bg-rose-400',
+                icon: 'ruler',
+                content: `
+                    <ul class="list-disc list-inside text-slate-600 space-y-2 mt-4">
+                        <li>Métrologie et capteurs, Qualité</li>
+                        <li>Chaîne de mesures</li>
+                        <li>Pilotage d'instruments</li>
+                        <li>Informatique d'instrumentation</li>
+                        <li>Conditionnement</li>
+                    </ul>`
+            },
+            'materiaux': {
+                title: 'Sciences des Matériaux & Analyse',
+                colorClass: 'bg-fuchsia-500',
+                icon: 'layers',
+                content: `
+                    <ul class="list-disc list-inside text-slate-600 space-y-2 mt-4">
+                        <li>Structure des matériaux</li>
+                        <li>Propriétés des matériaux</li>
+                        <li>Techniques du vide</li>
+                        <li>Spectroscopie</li>
+                        <li>Technique chromatographique</li>
+                        <li>Électrochimie</li>
+                    </ul>`
+            },
+            'culture': {
+                title: 'Culture & Communication',
+                colorClass: 'bg-sky-400',
+                icon: 'message-square',
+                content: `
+                    <ul class="list-disc list-inside text-slate-600 space-y-2 mt-4">
+                        <li>Anglais général de communication et initiation au vocabulaire scientifique</li>
+                        <li>Culture et communication</li>
+                        <li>Droit</li>
+                    </ul>`
+            }
+        };
+
+        function openCompetence(key) {
+            const data = competencesData[key];
+            if (!data) return;
+
+            const iconContainer = document.getElementById('comp-icon-container');
+            iconContainer.className = `w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg ${data.colorClass}`;
+            iconContainer.innerHTML = `<i data-lucide="${data.icon}" class="w-8 h-8"></i>`;
+            lucide.createIcons();
+
+            document.getElementById('comp-title').innerText = data.title;
+            document.getElementById('comp-title').className = `text-3xl font-bold ${data.textClass.replace('700', '600')}`;
+            document.getElementById('comp-subtitle').innerText = data.subtitle;
+
+            const levelsContainer = document.getElementById('comp-levels');
+            levelsContainer.innerHTML = ''; 
+
+            data.levels.forEach((level, index) => {
+                const div = document.createElement('div');
+                div.className = `flex gap-4 p-4 rounded-xl border ${data.borderClass} ${data.lightClass} items-start`;
+                div.innerHTML = `
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full ${data.colorClass} text-white flex items-center justify-center font-bold text-sm shadow-sm mt-1">
+                        ${level.lvl}
+                    </div>
+                    <div>
+                        <h4 class="font-bold ${data.textClass} text-sm uppercase tracking-wide mb-1">Niveau ${level.lvl}</h4>
+                        <p class="text-slate-700 leading-relaxed">${level.text}</p>
+                    </div>
+                `;
+                levelsContainer.appendChild(div);
+            });
+
+            openModal('modal-competence');
+        }
+
+        function openRessource(key) {
+            const data = ressourcesData[key];
+            if (!data) return;
+
+            const iconContainer = document.getElementById('res-icon-container');
+            iconContainer.className = `w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg ${data.colorClass}`;
+            iconContainer.innerHTML = `<i data-lucide="${data.icon}" class="w-8 h-8"></i>`;
+            lucide.createIcons();
+
+            document.getElementById('res-title').innerText = data.title;
+            document.getElementById('res-content').innerHTML = data.content;
+
+            openModal('modal-ressource');
+        }
+    </script>
+</body>
+</html>
